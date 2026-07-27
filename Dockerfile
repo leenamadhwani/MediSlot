@@ -1,11 +1,13 @@
-# Use an official PHP Apache image
 FROM php:8.2-apache
 
-# Install the mysqli extension needed for your database connection
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+# Install MySQL extensions for database connectivity
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Copy your application files to the web server's root directory
+# Copy all project files into Apache's web root
 COPY . /var/www/html/
 
-# Expose port 80 for web traffic
-EXPOSE 80
+# Configure Apache to use Render's dynamic port
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+CMD ["/usr/local/bin/start.sh"]

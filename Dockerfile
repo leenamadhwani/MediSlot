@@ -6,8 +6,11 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 # Copy all project files into Apache's web root
 COPY . /var/www/html/
 
-# Make startup script executable and use it as the container entrypoint
-COPY docker/start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
+# Create a clean startup script natively inside the container using /bin/sh
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo 'sed -i "s/80/${PORT:-10000}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf' >> /start.sh && \
+    echo 'exec apache2-foreground' >> /start.sh && \
+    chmod +x /start.sh
 
-CMD ["/usr/local/bin/start.sh"]
+# Execute the startup script
+CMD ["/start.sh"]

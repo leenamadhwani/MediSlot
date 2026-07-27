@@ -1,3 +1,4 @@
+<?>
 <?php
 /**
  * config.php
@@ -6,12 +7,12 @@
 
 session_start();
 
-// Fetch database credentials securely from environment variables
-$servername = getenv('DB_HOST');
-$username   = getenv('DB_USER');
+// Fetch credentials from environment variables with safe fallbacks
+$servername = getenv('DB_HOST') ?: 'mysql-27297956-leenamadhwani196-ccae.h.aivencloud.com';
+$username   = getenv('DB_USER') ?: 'avnadmin';
 $password   = getenv('DB_PASS');
-$dbname     = getenv('DB_NAME');
-$port       = getenv('DB_PORT');
+$dbname     = getenv('DB_NAME') ?: 'defaultdb';
+$port       = (int)(getenv('DB_PORT') ?: 19394);
 
 // Initialize MySQLi
 $conn = mysqli_init();

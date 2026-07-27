@@ -6,12 +6,12 @@
 
 session_start();
 
-// Database Configuration for Aiven Cloud MySQL
-$servername = "mysql-27297956-leenamadhwani196-ccae.h.aivencloud.com";
-$username   = "avnadmin";
-$password   = "YOUR_AIVEN_PASSWORD"; // <-- Replace this with your actual Aiven password
-$dbname     = "defaultdb";
-$port       = 19394;
+// Fetch database credentials securely from environment variables
+$servername = getenv('DB_HOST');
+$username   = getenv('DB_USER');
+$password   = getenv('DB_PASS');
+$dbname     = getenv('DB_NAME');
+$port       = getenv('DB_PORT');
 
 // Initialize MySQLi
 $conn = mysqli_init();
@@ -46,7 +46,7 @@ function require_login() {
 
 function require_admin() {
     if (!is_admin()) {
-        header("Location: index.php"); // Or wherever you want unauthorized users to go
+        header("Location: index.php");
         exit();
     }
 }

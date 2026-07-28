@@ -50,4 +50,8 @@ function require_admin() {
         exit();
     }
 }
+
+function clean($conn, $str) {
+    return htmlspecialchars(trim($str));
+}
 ?>
